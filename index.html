@@ -1,1 +1,367 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drugy Automations – AI Chat Asistent pre váš web</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --ink: #060608; --blue: #0160f4; --blue2: #3D8AFF;
+      --blueg: rgba(1,96,244,.13); --blueb: rgba(1,96,244,.28);
+      --white: #F2F2F6; --muted: #6B6B80;
+      --card: #0C0C12; --line: rgba(255,255,255,.07);
+    }
+    body { background: var(--ink); color: var(--white); font-family: 'Outfit', sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; }
+    .page { max-width: 960px; margin: 0 auto; width: 100%; }
+
+    /* HEADER */
+    .hd { padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); position: relative; }
+    .hd::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0, var(--blue) 45%, transparent 100%); }
+    .hd-logo { height: 48px; display: block; object-fit: contain; }
+    .hd-pill { font-size: 10px; letter-spacing: 2.2px; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); padding: 6px 14px; border-radius: 100px; font-weight: 500; }
+
+    /* HERO */
+    .hero { padding: 80px 40px; background: linear-gradient(158deg, #0A0A15 0%, var(--ink) 58%); position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .hero-glow { position: absolute; top: -140px; right: -140px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(1,96,244,.2) 0%, transparent 65%); pointer-events: none; }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(1,96,244,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(1,96,244,.04) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; mask-image: radial-gradient(ellipse 70% 70% at 80% 20%, black, transparent); }
+    .hero-left { position: relative; z-index: 1; }
+    .hero-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .pulse-ring { width: 10px; height: 10px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 3px rgba(1,96,244,.25); animation: pulse 2.4s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 3px rgba(1,96,244,.25); } 50% { box-shadow: 0 0 0 7px rgba(1,96,244,.1); } }
+    .eyebrow-txt { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--blue2); font-weight: 600; }
+    .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: 68px; line-height: .96; letter-spacing: -1px; margin-bottom: 22px; }
+    .hero h1 .blue { color: var(--blue); }
+    .hero-sub { font-size: 16px; color: #7A7A90; line-height: 1.72; margin-bottom: 36px; font-weight: 300; }
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; font-size: 13.5px; font-weight: 600; padding: 14px 28px; border-radius: 8px; font-family: 'Outfit', sans-serif; transition: opacity .18s; }
+    .btn:hover { opacity: .82; }
+    .btn-p { background: var(--blue); color: #fff; }
+    .btn-s { background: rgba(255,255,255,.05); border: 1px solid var(--line); color: var(--muted); }
+
+    /* MOCKUP */
+    .hero-mockup { position: relative; z-index: 1; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 28px; overflow: hidden; }
+    .hero-mockup::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--blue), transparent); }
+    .mockup-tag { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--blue2); font-weight: 600; margin-bottom: 18px; }
+    .chat-bubble { padding: 12px 16px; border-radius: 12px; font-size: 13.5px; line-height: 1.6; margin-bottom: 10px; max-width: 90%; }
+    .chat-bot { background: var(--blue); color: #fff; }
+    .chat-user { background: rgba(255,255,255,.06); color: var(--white); margin-left: auto; text-align: right; }
+    .chat-typing { display: flex; gap: 5px; padding: 12px 16px; background: var(--blue); border-radius: 12px; width: fit-content; }
+    .dot { width: 7px; height: 7px; background: rgba(255,255,255,.7); border-radius: 50%; animation: blink 1.2s infinite; }
+    .dot:nth-child(2) { animation-delay: .2s; }
+    .dot:nth-child(3) { animation-delay: .4s; }
+    @keyframes blink { 0%,100% { opacity: .3; } 50% { opacity: 1; } }
+
+    /* SECTION LABEL */
+    .sl { padding: 0 40px; margin: 52px 0 22px; display: flex; align-items: center; gap: 16px; }
+    .sl-txt { font-size: 10px; letter-spacing: 2.8px; text-transform: uppercase; color: var(--muted); white-space: nowrap; font-weight: 600; }
+    .sl::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+    /* STATS */
+    .stats { padding: 0 40px; display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .stat-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px 24px; text-align: center; }
+    .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 50px; color: var(--blue); line-height: 1; margin-bottom: 8px; }
+    .stat-label { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+    /* STEPS */
+    .steps { padding: 0 40px; }
+    .step { display: grid; grid-template-columns: 54px 1fr; gap: 20px; align-items: start; padding: 28px 0; border-bottom: 1px solid var(--line); }
+    .step:last-child { border-bottom: none; }
+    .sn { width: 46px; height: 46px; border: 1px solid var(--blueb); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--blue); background: var(--blueg); flex-shrink: 0; }
+    .step h3 { font-size: 17px; font-weight: 600; letter-spacing: -.3px; margin-bottom: 7px; }
+    .step p { font-size: 13.5px; color: var(--muted); line-height: 1.68; }
+
+    /* FOR WHOM */
+    .fw { padding: 0 40px; }
+    .fw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .fw-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; position: relative; overflow: hidden; }
+    .fw-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--blue), transparent); }
+    .fw-ico { font-size: 28px; margin-bottom: 14px; display: block; }
+    .fw-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 7px; }
+    .fw-card p { font-size: 12.5px; color: #5A5A72; line-height: 1.62; }
+
+    /* PRICING */
+    .price-wrap { padding: 0 40px; }
+    .price-box { background: var(--card); border: 1px solid rgba(1,96,244,.35); border-radius: 16px; padding: 40px; position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: start; }
+    .price-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--blue), var(--blue2), transparent); }
+    .price-glow { position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(1,96,244,.14), transparent 65%); pointer-events: none; }
+    .price-label { font-size: 10px; letter-spacing: 2.2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; font-weight: 600; }
+    .price-amount { font-family: 'Bebas Neue', sans-serif; font-size: 76px; line-height: 1; color: #fff; letter-spacing: -1px; margin-bottom: 14px; }
+    .price-amount span { font-size: 28px; color: var(--muted); }
+    .price-badge { display: inline-block; background: rgba(1,96,244,.12); border: 1px solid rgba(1,96,244,.3); color: var(--blue2); font-size: 11px; font-weight: 600; letter-spacing: .3px; padding: 6px 13px; border-radius: 100px; margin-bottom: 26px; }
+    .price-rows { display: grid; gap: 11px; }
+    .price-row { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: #8A8AA8; }
+    .price-row::before { content: "✓"; color: var(--blue2); font-weight: 700; flex-shrink: 0; }
+    .price-cta { display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+    .price-note { font-size: 12.5px; color: #484862; line-height: 1.65; padding-top: 16px; border-top: 1px solid var(--line); }
+    .price-note strong { color: var(--blue2); font-weight: 600; }
+
+    /* CONTACT */
+    .ct { margin: 0 40px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 56px 40px; text-align: center; position: relative; overflow: hidden; }
+    .ct-glow { position: absolute; top: -90px; left: 50%; transform: translateX(-50%); width: 400px; height: 400px; background: radial-gradient(circle, rgba(1,96,244,.17), transparent 65%); pointer-events: none; }
+    .ct h2 { font-family: 'Bebas Neue', sans-serif; font-size: 64px; letter-spacing: -1px; margin-bottom: 14px; position: relative; }
+    .ct p { font-size: 15px; color: var(--muted); margin-bottom: 32px; position: relative; }
+    .cb-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative; }
+    .cb { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; padding: 16px 30px; border-radius: 8px; transition: opacity .18s; }
+    .cb:hover { opacity: .85; }
+    .cb-p { background: var(--blue); color: #fff; }
+    .cb-g { border: 1px solid var(--line); color: var(--muted); background: rgba(255,255,255,.03); }
+
+    /* FOOTER */
+    .ft { padding: 28px 40px; margin-top: 40px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .ft-logo { height: 38px; object-fit: contain; }
+    .ft-r { font-size: 11px; color: #2E2E42; text-align: right; line-height: 1.6; }
+    .ft-r a { color: #383852; text-decoration: none; }
+    .div { height: 1px; margin: 24px 40px 0; background: linear-gradient(90deg, transparent, var(--line), transparent); }
+
+    @media (max-width: 700px) {
+      .hero { grid-template-columns: 1fr; padding: 40px 20px; }
+      .hero h1 { font-size: 52px; }
+      .hero-mockup { display: none; }
+      .fw-grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .price-box { grid-template-columns: 1fr; }
+      .sl, .steps, .fw, .price-wrap { padding-left: 20px; padding-right: 20px; }
+      .ct { margin: 0 20px; }
+      .ft { padding: 20px; }
+      .div { margin: 24px 20px 0; }
+      .hd { padding: 16px 20px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="hd">
+    <img class="hd-logo"
+      src="https://raw.githubusercontent.com/oleginod-hash/drugy-automations/main/logo.png"
+      alt="Drugy Automations"
+      onerror="this.style.display='none';document.getElementById('hd-fallback').style.display='block'" />
+    <span id="hd-fallback" style="display:none;font-family:'Bebas Neue',sans-serif;font-size:26px;color:#fff;letter-spacing:1px;">DRUGY <span style="color:var(--blue)">AUTOMATIONS</span></span>
+    <div class="hd-pill">AI Chatbot</div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <div class="pulse-ring"></div>
+        <span class="eyebrow-txt">AI Chat Asistent pre váš web</span>
+      </div>
+      <h1>Váš web<br>odpovie<br><span class="blue">24 / 7</span></h1>
+      <p class="hero-sub">Zákazníci dostanú odpoveď okamžite — aj keď vy práve nemôžete. Jednoduchšie, ako to vyzerá.</p>
+      <div class="cta-row">
+        <a href="mailto:drugyautomations@gmail.com" class="btn btn-p">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Bezplatné stretnutie
+        </a>
+        <a href="#demo" class="btn btn-s">Pozrieť demo</a>
+      </div>
+    </div>
+    <div class="hero-mockup">
+      <div class="mockup-tag">⚡ Live ukážka</div>
+      <div class="chat-bubble chat-bot">Ahoj! 👋 Som AI asistent. Ako vám môžem pomôcť?</div>
+      <div class="chat-bubble chat-user">Aká je cena vašich služieb?</div>
+      <div class="chat-typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- STATS -->
+  <div class="sl" style="margin-top:44px"><span class="sl-txt">Výsledky</span></div>
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Dostupnosť bez prerušenia</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">5 dní</div>
+      <div class="stat-label">Do živého asistenta na vašom webe</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">297€</div>
+      <div class="stat-label">Jednorazová platba, bez mesačných poplatkov</div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- STEPS -->
+  <div class="sl" style="margin-top:44px"><span class="sl-txt">Postup spolupráce</span></div>
+  <div class="steps">
+    <div class="step">
+      <div class="sn">01</div>
+      <div><h3>Databáza pamäti</h3><p>Vytvoríme dokument so všetkými informáciami z vašej stránky — ceny, služby, FAQ, kontakty. Uložíme do Google Drive priečinka, ktorý kedykoľvek aktualizujete.</p></div>
+    </div>
+    <div class="step">
+      <div class="sn">02</div>
+      <div><h3>Nastavenie asistenta</h3><p>Spracujeme podklady, nastavíme jazyk, tón a pravidlá. Otestujeme s bežnými otázkami vašich klientov, kým nebude odpovedať presne.</p></div>
+    </div>
+    <div class="step">
+      <div class="sn">03</div>
+      <div><h3>Vloženie chat widgetu</h3><p>Pošleme vám jeden krátky HTML kód — vloží sa pred uzatvárací tag &lt;/body&gt;. Chat tlačidlo sa automaticky objaví vpravo dole, farby prispôsobíme vášmu dizajnu.</p></div>
+    </div>
+    <div class="step">
+      <div class="sn">04</div>
+      <div><h3>Hotovo — asistent pracuje za vás</h3><p>Chat funguje nepretržite. Ak niečo nesedí, napíšte nám a okamžite opravíme. Aktualizácie zdarma — stačí nahrať nový dokument do Drive.</p></div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- FOR WHOM -->
+  <div class="sl" style="margin-top:44px"><span class="sl-txt">Pre koho je to ideálne</span></div>
+  <div class="fw">
+    <div class="fw-grid">
+      <div class="fw-card"><span class="fw-ico">🏋️</span><h4>Osobní tréneri &amp; koučovia</h4><p>Odpovedajte na otázky o cenách, dostupnosti a programoch aj počas tréningu.</p></div>
+      <div class="fw-card"><span class="fw-ico">💆</span><h4>Masáže &amp; wellness</h4><p>Rezervácie, druhy masáží, kontraindikácie — asistent odpovie za vás, 24/7.</p></div>
+      <div class="fw-card"><span class="fw-ico">🩺</span><h4>Lekári &amp; terapeuti</h4><p>FAQ o procedúrach, poisťovniach a objednávkach bez zbytočných telefonátov.</p></div>
+      <div class="fw-card"><span class="fw-ico">🏠</span><h4>Reality &amp; ubytovanie</h4><p>Parametre nehnuteľností, dostupnosť termínov, podmienky — okamžite a presne.</p></div>
+      <div class="fw-card"><span class="fw-ico">📚</span><h4>Kurzy &amp; vzdelávanie</h4><p>Detaily o kurzoch, platbách a obsahu bez opakovania tých istých odpovedí.</p></div>
+      <div class="fw-card"><span class="fw-ico">🛍️</span><h4>E-shopy &amp; služby</h4><p>Produktové otázky, doprava, reklamácie — zákazník dostane odpoveď ihneď.</p></div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- PRICING -->
+  <div class="sl" style="margin-top:44px"><span class="sl-txt">Cena</span></div>
+  <div class="price-wrap">
+    <div class="price-box">
+      <div class="price-glow"></div>
+      <div>
+        <div class="price-label">Jednorazová platba</div>
+        <div class="price-amount">297 <span>€</span></div>
+        <div class="price-badge">Bez mesačných poplatkov</div>
+        <div class="price-rows">
+          <div class="price-row">Nastavenie asistenta</div>
+          <div class="price-row">Inštalácia widgetu</div>
+          <div class="price-row">Tréning na vašich dátach</div>
+          <div class="price-row">Vlastné farby &amp; štýl</div>
+          <div class="price-row">Testovanie pred spustením</div>
+          <div class="price-row">Podpora po spustení</div>
+          <div class="price-row">Aktualizácie zdarma</div>
+        </div>
+      </div>
+      <div class="price-cta">
+        <a href="mailto:drugyautomations@gmail.com" class="btn btn-p" style="justify-content:center" id="demo">Mám záujem</a>
+        <a href="https://oleginod-hash.github.io/michalltrener/" target="_blank" class="btn btn-s" style="justify-content:center">Pozrieť demo</a>
+        <p class="price-note"><strong>Aktualizácie zdarma.</strong> Zmenili ste cenník alebo pridali novú službu? Stačí nahrať dokument do zdieľaného Drive priečinka — asistent sa aktualizuje automaticky.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- CONTACT -->
+  <div class="sl" style="margin-top:44px"><span class="sl-txt">Kontakt</span></div>
+  <div class="ct">
+    <div class="ct-glow"></div>
+    <h2>Začnime spoločne</h2>
+    <p>Bezplatné 30-minútové stretnutie — zistíme, či má chatbot pre vás zmysel.</p>
+    <div class="cb-row">
+      <a href="mailto:drugyautomations@gmail.com" class="cb cb-p">📧 drugyautomations@gmail.com</a>
+      <a href="tel:+421902694316" class="cb cb-g">📞 0902 694 316</a>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- FOOTER -->
+  <footer class="ft">
+    <img class="ft-logo"
+      src="https://raw.githubusercontent.com/oleginod-hash/drugy-automations/main/logo.png"
+      alt="Drugy Automations"
+      onerror="this.style.display='none';document.getElementById('ft-fallback').style.display='block'" />
+    <span id="ft-fallback" style="display:none;font-family:'Bebas Neue',sans-serif;font-size:20px;color:#383852;letter-spacing:1px;">DRUGY <span style="color:var(--blue)">AUTOMATIONS</span></span>
+    <div class="ft-r">© 2026 Drugy Automations<br/><a href="mailto:drugyautomations@gmail.com">drugyautomations@gmail.com</a></div>
+  </footer>
+
+</div>
+
+<!-- CHATBOT -->
+<script type="module" defer>
+  import Chatbot from "https://cdn.n8nchatui.com/v1/embed.js";
+  Chatbot.init({
+    "n8nChatUrl": "https://oleginoo2026.app.n8n.cloud/webhook/00c0d7bd-9785-4b9a-9c5e-752eccbf7e7c/chat",
+    "metadata": {},
+    "theme": {
+      "button": {
+        "backgroundColor": "#0160f4",
+        "right": 20,
+        "bottom": 20,
+        "size": 50,
+        "iconColor": "#ffffff",
+        "customIconSrc": "https://www.svgrepo.com/show/362552/chat-centered-dots-bold.svg",
+        "customIconSize": 60,
+        "customIconBorderRadius": 15,
+        "autoWindowOpen": {
+          "autoOpen": false,
+          "openDelay": 2
+        },
+        "borderRadius": "rounded",
+        "draggable": false
+      },
+      "tooltip": {
+        "showTooltip": true,
+        "tooltipMessage": "Ak máte otázky, pýtajte sa!",
+        "tooltipBackgroundColor": "#d1e3ff",
+        "tooltipTextColor": "#000000",
+        "tooltipFontSize": 15,
+        "hideTooltipOnMobile": true
+      },
+      "allowProgrammaticMessage": false,
+      "chatWindow": {
+        "borderRadiusStyle": "rounded",
+        "avatarBorderRadius": 25,
+        "messageBorderRadius": 15,
+        "showTitle": true,
+        "title": "AI Chat asistent ",
+        "avatarSize": 36,
+        "welcomeMessage": "Ahoj!👋 Pomôžem ti s otázkami o tom, ako funguje takýto chatbot 🤖 od Drugy Automations⚡. Čo by si chcel vedieť? 🤔",
+        "errorMessage": "Ups, niečo sa pokazilo. 🙁 Skús to prosím znova, alebo nás kontaktuj priamo na [ drugyautomations@gmail.com / 0902 694 316 ].",
+        "backgroundColor": "#d1e3ff",
+        "height": 500,
+        "width": 400,
+        "fontSize": 15,
+        "starterPromptFontSize": 13,
+        "renderHTML": true,
+        "clearChatOnReload": false,
+        "showScrollbar": false,
+        "botMessage": {
+          "backgroundColor": "#0160f4",
+          "textColor": "#fafafa",
+          "showAvatar": true,
+          "avatarSrc": "https://www.svgrepo.com/show/334455/bot.svg",
+          "showCopyToClipboardIcon": false
+        },
+        "userMessage": {
+          "backgroundColor": "#fff6f3",
+          "textColor": "#050505",
+          "showAvatar": true,
+          "avatarSrc": "https://www.svgrepo.com/show/532363/user-alt-1.svg"
+        },
+        "textInput": {
+          "placeholder": "Napíš svoju otázku...",
+          "backgroundColor": "#ffffff",
+          "textColor": "#000000",
+          "sendButtonColor": "#0160f4",
+          "maxChars": 499,
+          "maxCharsWarningMessage": "Správa je príliš dlhá. Skráť ju prosím na maximum 500 znakov.",
+          "autoFocus": true,
+          "borderRadius": 20,
+          "sendButtonBorderRadius": 12
+        }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
